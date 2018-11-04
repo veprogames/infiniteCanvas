@@ -27,6 +27,16 @@ public class Vec2
     return new Vec2(this.x + v.x, this.y + v.y);
   }
   
+  public Vec2 sub(double x, double y)
+  {
+    return new Vec2(this.x - x, this.y - y);
+  }
+  
+  public Vec2 sub(Vec2 v)
+  {
+    return new Vec2(this.x - v.x, this.y - v.y);
+  }
+  
   public Vec2 mul(double factor)
   {
     return new Vec2(this.x * factor, this.y * factor);
@@ -72,6 +82,16 @@ public class Vec2Float
     return new Vec2(this.x + v.x, this.y + v.y);
   }
   
+  public Vec2 sub(float x, float y)
+  {
+    return new Vec2(this.x - x, this.y - y);
+  }
+  
+  public Vec2 sub(Vec2 v)
+  {
+    return new Vec2(this.x - v.x, this.y - v.y);
+  }
+  
   public Vec2 mul(float factor)
   {
     return new Vec2(this.x * factor, this.y * factor);
@@ -103,6 +123,16 @@ class Camera
   {
     Vec2 offsetPosition = position.add(this.position);
     return new Vec2((offsetPosition.x * zoom + 0.5) * width, (offsetPosition.y * zoom - 0.5 / aspectRatio) * height * aspectRatio * -1 /*invert axis*/);
+  }
+  
+  public Vec2 screenToWorldPos(Vec2 position)
+  {
+    return new Vec2((position.x - width / 2) / zoom / width, (position.y - height / 2) / zoom / height / aspectRatio * -1).add(this.position.mul(-1));
+  }
+  
+  public Vec2 screenToWorldPos(int x, int y)
+  {
+    return screenToWorldPos(new Vec2(x, y));
   }
   
   public double getRange()

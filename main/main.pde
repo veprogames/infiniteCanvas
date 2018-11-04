@@ -3,17 +3,20 @@ public double aspectRatio;
 
 public ArrayList<Shape> shapes = new ArrayList<Shape>();
 
+public Vec2 relativeShapeSize = new Vec2(0.01, 0.01);
+
+enum DrawType{
+  CIRCLE, RECTANGLE
+}
+
+public DrawType drawType = DrawType.CIRCLE;
+
 void setup()
 {
   fullScreen();
   
-  colorMode(HSB, 1.0f, 1.0f, 1.0f);
-  
-  for(int i = 1000; i > -1000; i--)
-  {
-    double f = pow(1.02, i);
-    shapes.add(new Circle(new Vec2(cos(i / 5.5), sin(i / 5.5)).mul(f), 0.3 * f, color((abs(i) / 500f + random(0f, 0.05f)) % 1f, 1, 1)));
-  }
+  colorMode(HSB, 1.0f, 1.0f, 1.0f, 1.0f);
+  rectMode(CENTER);
   
   fill(0);
   noStroke();
@@ -23,11 +26,28 @@ void setup()
 
 void draw()
 {
+  float deltaTime = 1 / frameRate;
+  
   background(color(0, 0, 1));
+  
+  int col = color((millis() / 2000.0) % 1, 1, 1, 1f);
   
   if(mousePressed)
   {
-
+    Vec2 position = mainCamera.screenToWorldPos(mouseX, mouseY);
+    Vec2 size = relativeShapeSize.mul(mainCamera.getRange());
+    
+    switch(drawType)
+    {
+      case CIRCLE:
+          addShape(new Ellipse(position, size, col));
+          break;
+      case RECTANGLE:
+          addShape(new Rectangle(position, size, col));
+          break;
+      default:
+            break;
+    }
   }
   
   if(keyPressed)
@@ -51,11 +71,11 @@ void draw()
     
     if(key == 'w')
     {
-      mainCamera.zoomIn(1.025);
+      mainCamera.zoomIn(pow(3, deltaTime));
     }
     if(key == 's')
     {
-      mainCamera.zoomOut(1.025);
+      mainCamera.zoomOut(pow(3, deltaTime));
     }
   }
   
@@ -69,6 +89,28 @@ void draw()
   textAlign(LEFT, TOP);
   text("Width | " + Utils.formatDistance(mainCamera.getRange()) + "\n" + 
       "Distance from Center | " + Utils.formatDistance(Utils.pythagoras(new Vec2(0, 0), mainCamera.position)), 0, 0);
+      
+  fill((millis() / 2000.0) % 1, 1, 1, 0.5f);
+  
+  switch(drawType)
+  {
+    case CIRCLE:
+        ellipse(mouseX, mouseY, width * (float)relativeShapeSize.x, width * (float)relativeShapeSize.y);
+        break;
+    case RECTANGLE:
+        rect(mouseX, mouseY, width * (float)relativeShapeSize.x, width * (float)relativeShapeSize.y);
+        break;
+    default:
+        break;
+  }
+}
+
+void keyPressed()
+{
+  if(key == 'd')
+  {
+    drawType = DrawType.values()[(drawType.ordinal() + 1) % DrawType.values().length];
+  }
 }
 
 void mouseWheel(MouseEvent e)
@@ -81,10 +123,10 @@ void mouseWheel(MouseEvent e)
   
   if(scrolledUp)
   {
-    mainCamera.zoomIn(1.1);
+    mainCamera.zoomIn(1.2);
   }
   if(scrolledDown)
   {
-    mainCamera.zoomOut(1.1);
+    mainCamera.zoomOut(1.2);
   }
 }

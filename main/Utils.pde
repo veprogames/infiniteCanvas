@@ -23,10 +23,6 @@ static class Utils
       int order = (int)-Math.log10(number) / 3;
       return formatter.format(Math.pow(10, Math.log10(number) % 3 + 3)) + distances_small[order]; //0 to 3 instead of -3 to 0
     }
-    else if(number == 0)
-    {
-      return "zero";
-    }
     else
     {
       return formatter.format(number) + "m";

@@ -43,6 +43,8 @@ void draw()
   
   background(color(0, 0, 1));
   
+  noStroke();
+  
   if(mousePressed && mouseButton == LEFT)
   {
     placeShape();
@@ -101,19 +103,13 @@ void draw()
     
   }
   
+  
   for(Shape s : shapes)
   {
     s.render();
   }
   
-  fill(0);
-  textSize(32);
-  textAlign(LEFT, TOP);
-  text("Width | " + DistanceFormatter.format(mainCamera.getRange()) + "\n" + 
-      "Distance from Center | " + DistanceFormatter.format(Utils.pythagoras(new Vec2(0, 0), mainCamera.position)), 0, 0);
-      
   fill(shapeColor.getRGB(), 0.5f);
-  
   switch(drawType)
   {
     case CIRCLE:
@@ -126,6 +122,30 @@ void draw()
         break;
   }
   
+  fill(0);
+  textSize(32);
+  textAlign(LEFT, TOP);
+  text("Distance from Center | " + DistanceFormatter.format(Utils.pythagoras(new Vec2(0, 0), mainCamera.position)), 0, 0);
+      
+  stroke(0);
+  strokeWeight(2);
+  rectMode(CORNER);
+  for(float x = 0, i = 0; x < width; x += width / 10f, i++)
+  {
+    fill(i % 2 == 0 ? 0 : color(0, 0, 1, 1));
+    rect(x, height - 30, width / 10f, 30);
+  }
+  rectMode(CENTER);
+  
+  textAlign(CENTER, BOTTOM);
+  fill(0);
+  textSize(40);
+  text("<- " + DistanceFormatter.format(mainCamera.getRange()) + " ->", width / 2, height - 40);
+      
+  fill(shapeColor.getRGB(), 0.5f);
+  
+  
+  
 }
 
 void keyPressed()
@@ -137,6 +157,10 @@ void keyPressed()
   if(key == 'c')
   {
     shapeColor = chooseColor();
+  }
+  if(key == 'o')
+  {
+    mainCamera.position = new Vec2(0, 0);
   }
 }
 

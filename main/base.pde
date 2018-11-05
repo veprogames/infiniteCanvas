@@ -47,6 +47,16 @@ public class Vec2
     return new Vec2(this.x * v.x, this.y * v.y);
   }
   
+  public Vec2 div(double factor)
+  {
+    return new Vec2(this.x / factor, this.y / factor);
+  }
+  
+  public Vec2 div(Vec2 v)
+  {
+    return new Vec2(this.x / v.x, this.y / v.y);
+  }
+  
   public String toString()
   {
     return "VEC2 (" + x + "," + y + ")";
@@ -72,34 +82,44 @@ public class Vec2Float
     this.x += v.x; this.y += v.y;
   }
   
-  public Vec2 add(float x, float y)
+  public Vec2Float add(float x, float y)
   {
-    return new Vec2(this.x + x, this.y + y);
+    return new Vec2Float(this.x + x, this.y + y);
   }
   
-  public Vec2 add(Vec2 v)
+  public Vec2Float add(Vec2Float v)
   {
-    return new Vec2(this.x + v.x, this.y + v.y);
+    return new Vec2Float(this.x + v.x, this.y + v.y);
   }
   
-  public Vec2 sub(float x, float y)
+  public Vec2Float sub(float x, float y)
   {
-    return new Vec2(this.x - x, this.y - y);
+    return new Vec2Float(this.x - x, this.y - y);
   }
   
-  public Vec2 sub(Vec2 v)
+  public Vec2Float sub(Vec2Float v)
   {
-    return new Vec2(this.x - v.x, this.y - v.y);
+    return new Vec2Float(this.x - v.x, this.y - v.y);
   }
   
-  public Vec2 mul(float factor)
+  public Vec2Float mul(float factor)
   {
-    return new Vec2(this.x * factor, this.y * factor);
+    return new Vec2Float(this.x * factor, this.y * factor);
   }
   
-  public Vec2 mul(Vec2 v)
+  public Vec2Float mul(Vec2Float v)
   {
-    return new Vec2(this.x * v.x, this.y * v.y);
+    return new Vec2Float(this.x * v.x, this.y * v.y);
+  }
+  
+  public Vec2Float div(float factor)
+  {
+    return new Vec2Float(this.x / factor, this.y / factor);
+  }
+  
+  public Vec2Float div(Vec2Float v)
+  {
+    return new Vec2Float(this.x / v.x, this.y / v.y);
   }
   
   public String toString()
